@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynetecAssessmentApi.Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynetecAssessmentApi.Persistence", "SynetecAssessment.Persistence\SynetecAssessmentApi.Persistence.csproj", "{72F75F99-9031-4DD6-B646-4926BC527038}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynetecAssessmentApi.Services", "SynetecAssessmentApi.Services\SynetecAssessmentApi.Services.csproj", "{61877889-1747-48FF-851B-A1762E11256F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynetecAssessmentApi.Services", "SynetecAssessmentApi.Services\SynetecAssessmentApi.Services.csproj", "{61877889-1747-48FF-851B-A1762E11256F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynetecAssessmentApi.Services.Tests", "SynetecAssessmentApi.Services.Tests\SynetecAssessmentApi.Services.Tests.csproj", "{2D8C8EC9-256E-450B-AF29-782420AF45E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{61877889-1747-48FF-851B-A1762E11256F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61877889-1747-48FF-851B-A1762E11256F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61877889-1747-48FF-851B-A1762E11256F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D8C8EC9-256E-450B-AF29-782420AF45E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D8C8EC9-256E-450B-AF29-782420AF45E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D8C8EC9-256E-450B-AF29-782420AF45E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D8C8EC9-256E-450B-AF29-782420AF45E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,6 +2,7 @@
 using SynetecAssessmentApi.Domain;
 using SynetecAssessmentApi.Persistence;
 using SynetecAssessmentApi.Services.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,12 +13,9 @@ namespace SynetecAssessmentApi.Services
     {
         private readonly AppDbContext _dbContext;
 
-        public BonusPoolService()
+        public BonusPoolService(AppDbContext dbContext)
         {
-            var dbContextOptionBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            dbContextOptionBuilder.UseInMemoryDatabase(databaseName: "HrDb");
-
-            _dbContext = new AppDbContext(dbContextOptionBuilder.Options);
+            _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<EmployeeDto>> GetEmployeesAsync()
@@ -52,6 +50,9 @@ namespace SynetecAssessmentApi.Services
         {
             //load the details of the selected employee using the Id
             Employee employee = await this.GetEmployee(selectedEmployeeId);
+
+            if (employee == null)
+                throw new ArgumentException("Employee doesn't exists");
 
             //get the total salary budget for the company
             int totalSalary = (int)_dbContext.Employees.Sum(item => item.Salary);
