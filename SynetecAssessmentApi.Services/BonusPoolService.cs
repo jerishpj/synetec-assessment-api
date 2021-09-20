@@ -1,23 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SynetecAssessmentApi.Domain;
-using SynetecAssessmentApi.Dtos;
 using SynetecAssessmentApi.Persistence;
+using SynetecAssessmentApi.Services.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SynetecAssessmentApi.Services
 {
-    public class BonusPoolService
+    public class BonusPoolService : IBonusPoolService
     {
         private readonly AppDbContext _dbContext;
 
-        public BonusPoolService()
+        public BonusPoolService(AppDbContext dbContext)
         {
-            var dbContextOptionBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            dbContextOptionBuilder.UseInMemoryDatabase(databaseName: "HrDb");
-
-            _dbContext = new AppDbContext(dbContextOptionBuilder.Options);
+            _dbContext = dbContext;
         }
 
         public async Task<IEnumerable<EmployeeDto>> GetEmployeesAsync()
@@ -51,9 +49,10 @@ namespace SynetecAssessmentApi.Services
         public async Task<BonusPoolCalculatorResultDto> CalculateAsync(int bonusPoolAmount, int selectedEmployeeId)
         {
             //load the details of the selected employee using the Id
-            Employee employee = await _dbContext.Employees
-                .Include(e => e.Department)
-                .FirstOrDefaultAsync(item => item.Id == selectedEmployeeId);
+            Employee employee = await this.GetEmployee(selectedEmployeeId);
+
+            if (employee == null)
+                throw new ArgumentException("Employee doesn't exists");
 
             //get the total salary budget for the company
             int totalSalary = (int)_dbContext.Employees.Sum(item => item.Salary);
@@ -79,5 +78,36 @@ namespace SynetecAssessmentApi.Services
                 Amount = bonusAllocation
             };
         }
+
+        /// <summary>
+        /// Check if employee exists in database
+        /// </summary>
+        /// <param name="selectedEmployeeId"></param>
+        /// <returns>True if exists. Else False</returns>
+        public async Task<bool> CheckEmployeeExists(int selectedEmployeeId)
+        {
+            Employee employee = await this.GetEmployee(selectedEmployeeId);
+
+            if (employee == null)
+                return false;
+            else
+                return true;
+        }
+
+        /// <summary>
+        /// Get employee details
+        /// </summary>
+        /// <param name="selectedEmployeeId">Employee Id</param>
+        /// <returns>Employee</returns>
+        private async Task<Employee> GetEmployee(int selectedEmployeeId)
+        {
+            //load the details of the selected employee using the Id
+            Employee employee = await _dbContext.Employees
+                .Include(e => e.Department)
+                .FirstOrDefaultAsync(item => item.Id == selectedEmployeeId);
+
+            return employee;
+        }
+        
     }
 }
